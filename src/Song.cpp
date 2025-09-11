@@ -3,7 +3,6 @@
 #include "Song.h"
 
 stu::Song::Song() : audio() {
-	audio.looping = false;
 	fileName = "";
 	paused = false;
 	speed = 1.0f;
@@ -19,6 +18,8 @@ stu::Song::~Song() {
 }
 
 float stu::Song::getProgress() {
+	// Believe me you don't want to divide by zero
+	if (GetMusicTimeLength(audio) == 0) return 0;
 	return GetMusicTimePlayed(audio) / GetMusicTimeLength(audio);
 }
 
