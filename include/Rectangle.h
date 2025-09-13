@@ -5,9 +5,11 @@
 namespace stu {
 
 	class Rectangle	{
-	private:
+	protected:
 		int x;
 		int y;
+		int end_x;
+		int end_y;
 		int width;
 		int height;
 	public:

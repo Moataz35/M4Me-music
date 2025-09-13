@@ -4,6 +4,8 @@
 stu::Rectangle::Rectangle() {
 	x = y = 0;
 	width = height = 50;
+	end_x = x + width;
+	end_y = y + height;
 }
 
 stu::Rectangle::Rectangle(int x, int y, int width, int height) {
@@ -11,6 +13,8 @@ stu::Rectangle::Rectangle(int x, int y, int width, int height) {
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	end_x = x + width;
+	end_y = y + height;
 }
 
 void stu::Rectangle::draw(Color backgroundColor) {
@@ -20,9 +24,13 @@ void stu::Rectangle::draw(Color backgroundColor) {
 void stu::Rectangle::setPosition(int newX, int newY) {
 	x = newX;
 	y = newY;
+	end_x = x + width;
+	end_y = y + height;
 }
 
 void stu::Rectangle::setSize(int newWidth, int newHeight) {
 	width = newWidth;
 	height = newHeight;
+	end_x = x + width;
+	end_y = y + height;
 }

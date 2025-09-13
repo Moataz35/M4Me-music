@@ -28,6 +28,9 @@ bool stu::Song::isPaused() {
 }
 
 bool stu::Song::loadFromFile(std::string fileName) {
+	// If there is already a loaded audio unload it first
+	UnloadMusicStream(audio);
+
 	this->fileName = fileName;
 	audio = LoadMusicStream(
 				this->fileName.c_str()
@@ -41,6 +44,9 @@ bool stu::Song::loadFromFile(std::string fileName) {
 }
 
 bool stu::Song::loadFromFile() {
+	// If there is already a loaded audio unload it first
+	UnloadMusicStream(audio);
+
 	const char* supportedFormats[3] = {"*.mp3", "*.ogg", "*.wav"};  // const char** -> Pointer (char*) to array of (const char*) or C-strings
 	const char* filePath = tinyfd_openFileDialog(
 								"Choose a song",
