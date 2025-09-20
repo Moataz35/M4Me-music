@@ -12,6 +12,7 @@ stu::IconButton::IconButton(std::string fileName) {
 
 stu::IconButton::~IconButton() {
 	UnloadTexture(icon);
+	delete onClicked;
 }
 
 template<typename T>
@@ -20,6 +21,10 @@ bool stu::IconButton::inRange(T target, T start, T end) {
 		return true;
 	}
 	return false;
+}
+
+void stu::IconButton::setCommand(Command* toDo) {
+	onClicked = toDo;
 }
 
 void stu::IconButton::draw() {

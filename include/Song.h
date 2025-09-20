@@ -18,6 +18,15 @@ namespace stu {
 		// Get the time played from the song as a ratio
 		float getProgress();
 
+		// Get the total length of the song in seconds
+		float getTotalLength();
+
+		// Return the elapsed time in seconds
+		float getElapsedTime();
+
+		// Return the song name not the full path
+		std::string getSongName();
+
 		/*
 			Return the state of the song
 			true if the song is paused

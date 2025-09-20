@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Command.h"
 #include "raylib.h"
 #include <string>
 
@@ -13,6 +14,7 @@ namespace stu {
 		int y;
 		int end_x;
 		int end_y;
+		Command* onClicked;
 
 		// Helper function to check if number in range [start, end]
 		template<typename T>
@@ -21,6 +23,12 @@ namespace stu {
 		IconButton(std::string fileName);
 
 		~IconButton();
+
+		/*
+			Set the right command to do on clicked
+			Note: It should be a dynamic allocated memory for the command
+		*/
+		void setCommand(Command* toDo);
 
 		// Draw the button on the window (that you call this method inside its drawing area in its main loop)
 		void draw();

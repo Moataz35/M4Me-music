@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "tinyfiledialogs.h"
 #include "Song.h"
+#include <iostream>
+#include <string>
 
 stu::Song::Song() : audio() {
 	fileName = "";
@@ -21,6 +23,31 @@ float stu::Song::getProgress() {
 	// Believe me you don't want to divide by zero
 	if (GetMusicTimeLength(audio) == 0) return 0;
 	return GetMusicTimePlayed(audio) / GetMusicTimeLength(audio);
+}
+
+float stu::Song::getTotalLength() {
+	float musicLength = GetMusicTimeLength(audio);
+	return musicLength > 0 ? musicLength : 0;
+}
+
+
+float stu::Song::getElapsedTime() {
+	float timePlayed = GetMusicTimePlayed(audio);
+	return timePlayed > 0 ? timePlayed : 0;
+}
+
+std::string stu::Song::getSongName() {
+	std::string reversedName = "";
+	for (int i = fileName.length() - 1; i >= 0; i--) {
+		if (fileName[i] == '/' || fileName[i] == '\\') break;
+		reversedName += fileName[i];
+	}
+
+	std::string songName = "";
+	for (int i = reversedName.length() - 1; i >= 0; i--) {
+		songName += reversedName[i];
+	}
+	return songName;
 }
 
 bool stu::Song::isPaused() {
@@ -56,7 +83,14 @@ bool stu::Song::loadFromFile() {
 								"Audio files",
 								0
 							);
-	audio = LoadMusicStream(filePath);
+	if (filePath == NULL) {
+		return false;
+	}
+
+	fileName = filePath;
+	audio = LoadMusicStream(
+				fileName.c_str()
+			);
 
 	if (!IsMusicValid(audio)) {
 		return false;

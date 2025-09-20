@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Command.h"
 #include "raylib.h"
 #include "Rectangle.h"
 #include <string>
@@ -12,6 +13,7 @@ namespace stu {
 		int textX;
 		int textY;
 		int fontSize;
+		Command* onClicked;
 
 		// Helper function to center the text in the rectangle
 		void centerText();
@@ -23,6 +25,14 @@ namespace stu {
 		TextButton();
 
 		TextButton(std::string buttonText);
+
+		~TextButton();
+
+		/*
+			Set the right command to do on clicked
+			Note: It should be a dynamic allocated memory for the command
+		*/
+		void setCommand(Command* toDo);
 
 		// Draw the button on the window
 		void draw(Color backgroundColor = WHITE, Color textColor = BLACK);

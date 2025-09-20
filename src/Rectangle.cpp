@@ -18,7 +18,9 @@ stu::Rectangle::Rectangle(int x, int y, int width, int height) {
 }
 
 void stu::Rectangle::draw(Color backgroundColor) {
-	DrawRectangle(x, y, width, height, backgroundColor);
+	::Rectangle roundedRectangle = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width), static_cast<float>(height)};
+	DrawRectangleRounded(roundedRectangle, 2.0f, 0, backgroundColor);
+	//DrawRectangle(x, y, width, height, backgroundColor);
 }
 
 void stu::Rectangle::setPosition(int newX, int newY) {

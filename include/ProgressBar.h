@@ -2,6 +2,7 @@
 
 #include "raylib.h"
 #include "Rectangle.h"
+#include "Song.h"
 
 namespace stu {
 	
@@ -23,6 +24,8 @@ namespace stu {
 
 		// Set the progress according to a ratio = where we are now / the total length
 		void setProgress(float progress);
+
+		void setProgress(stu::Song& musicTrack);
 
 		// Change the positon to a new x and y
 		void setPosition(int newX, int newY);

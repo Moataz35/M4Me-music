@@ -3,19 +3,6 @@
 #include "Rectangle.h"
 #include <string>
 
-stu::TextButton::TextButton() : Rectangle(0, 0, 150, 25) {
-	text = "Push button";
-	textX = textY = 0;
-	fontSize = 20;
-	centerText();
-}
-
-stu::TextButton::TextButton(std::string buttonText) : Rectangle(0, 0, 150, 25) {
-	text = buttonText;
-	textX = textY = 0;
-	fontSize = 20;
-	centerText();
-}
 
 void stu::TextButton::centerText() {
 	// Make the text fit in the rectangle
@@ -35,6 +22,28 @@ bool stu::TextButton::inRange(T target, T start, T end) {
 		return true;
 	}
 	return false;
+}
+
+stu::TextButton::TextButton() : Rectangle(0, 0, 150, 25) {
+	text = "Push button";
+	textX = textY = 0;
+	fontSize = 20;
+	centerText();
+}
+
+stu::TextButton::TextButton(std::string buttonText) : Rectangle(0, 0, 150, 25) {
+	text = buttonText;
+	textX = textY = 0;
+	fontSize = 20;
+	centerText();
+}
+
+stu::TextButton::~TextButton() {
+	delete onClicked;
+}
+
+void stu::TextButton::setCommand(Command* toDo) {
+	onClicked = toDo;
 }
 
 void stu::TextButton::draw(Color backgroundColor, Color textColor) {
