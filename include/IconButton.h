@@ -24,10 +24,8 @@ namespace stu {
 
 		~IconButton();
 
-		/*
-			Set the right command to do on clicked
-			Note: It should be a dynamic allocated memory for the command
-		*/
+		
+		// Set the right command to do on clicked
 		void setCommand(Command* toDo);
 
 		// Draw the button on the window (that you call this method inside its drawing area in its main loop)
@@ -35,6 +33,9 @@ namespace stu {
 
 		// Check if the button is pressed
 		bool isPressed();
+
+		// Something to do when the button is clicked
+		void handleButtonClick();
 
 		// Load an icon by providing its path
 		bool loadIconFromFile(std::string fileName);

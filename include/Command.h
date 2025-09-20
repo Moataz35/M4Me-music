@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Song.h"
+#include "../include/Song.h"
 
 class Command {
 public:
@@ -16,6 +16,7 @@ class PlayCommand : public Command{
 private:
 	stu::Song* musicTrack;
 public:
+	PlayCommand(stu::Song* track);
 	void execute();
 };
 
@@ -23,6 +24,7 @@ class PauseCommand : public Command{
 private:
 	stu::Song* musicTrack;
 public:
+	PauseCommand(stu::Song* track);
 	void execute();
 };
 
@@ -30,6 +32,7 @@ class LoadCommand : public Command{
 private:
 	stu::Song* musicTrack;
 public:
+	LoadCommand(stu::Song* track);
 	void execute();
 };
 

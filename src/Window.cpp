@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "../include/Window.h"
 #include "raylib.h"
 
 Window::Window(int width, int height, std::string title) : width(width), height(height), title(title) {

@@ -1,6 +1,6 @@
 #include "raylib.h"
-#include "tinyfiledialogs.h"
-#include "Song.h"
+#include "../include/tinyfiledialogs.h"
+#include "../include/Song.h"
 #include <iostream>
 #include <string>
 

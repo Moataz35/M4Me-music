@@ -26,12 +26,7 @@ namespace stu {
 
 		TextButton(std::string buttonText);
 
-		~TextButton();
-
-		/*
-			Set the right command to do on clicked
-			Note: It should be a dynamic allocated memory for the command
-		*/
+		// Set the right command to do on clicked
 		void setCommand(Command* toDo);
 
 		// Draw the button on the window
@@ -42,6 +37,9 @@ namespace stu {
 		
 		// Return true if the button is pressed
 		bool isPressed();
+
+		// Something to do when the button is clicked
+		void handleButtonClick();
 	};
 
 }

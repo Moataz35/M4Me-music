@@ -1,4 +1,4 @@
-#include "IconButton.h"
+#include "../include/IconButton.h"
 #include "raylib.h"
 #include <string>
 
@@ -12,7 +12,6 @@ stu::IconButton::IconButton(std::string fileName) {
 
 stu::IconButton::~IconButton() {
 	UnloadTexture(icon);
-	delete onClicked;
 }
 
 template<typename T>
@@ -42,6 +41,12 @@ bool stu::IconButton::isPressed() {
 		return false;
 	}
 	return false;
+}
+
+void stu::IconButton::handleButtonClick() {
+	if (isPressed() && onClicked != nullptr) {
+		onClicked->execute();
+	}
 }
 
 bool stu::IconButton::loadIconFromFile(std::string fileName) {

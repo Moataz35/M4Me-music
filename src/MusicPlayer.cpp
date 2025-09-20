@@ -1,7 +1,11 @@
-#include "MusicPlayer.h"
+#include "../include/MusicPlayer.h"
 
 
-MusicPlayer::MusicPlayer(std::string appName) : mainWindow(screenWidth, screenHeight, appName), changeSongButton("Change song"), playButton("Data/play_icon2.png"), pauseButton("Data/pause_icon2.png"), songProgressBar(progressBarX, progressBarY, progressBarWidth, progressBarHeight) {
+MusicPlayer::MusicPlayer(std::string appName) : mainWindow(screenWidth, screenHeight, appName),
+                                                changeSongButton("Change song"),
+                                                playButton("Data/images/play_icon2.png"), pauseButton("Data/images/pause_icon2.png"),
+                                                songProgressBar(progressBarX, progressBarY, progressBarWidth, progressBarHeight) 
+{
 	
     changeSongButton.setPosition(
         progressBarX + progressBarWidth / 2 - buttonWidth / 2,
@@ -17,6 +21,20 @@ MusicPlayer::MusicPlayer(std::string appName) : mainWindow(screenWidth, screenHe
         progressBarX + progressBarWidth / 2 - buttonRadius / 2,
         progressBarY + 50
     );
+
+    playCommand = new PlayCommand(&musicTrack);
+    pauseCommand = new PauseCommand(&musicTrack);
+    loadCommand = new LoadCommand(&musicTrack);
+
+    playButton.setCommand(playCommand);
+    pauseButton.setCommand(pauseCommand);
+    changeSongButton.setCommand(loadCommand);
+}
+
+MusicPlayer::~MusicPlayer() {
+    delete playCommand;
+    delete pauseCommand;
+    delete loadCommand;
 }
 
 void MusicPlayer::run() {
@@ -62,24 +80,14 @@ void MusicPlayer::updateStates() {
 
 void MusicPlayer::eventHandling() {
     // Play/Pause the music
-    if (playButton.isPressed() || pauseButton.isPressed() || IsKeyPressed(KEY_SPACE)) {
-
-        if (musicTrack.isPaused()) {
-            musicTrack.play();
-        }
-        else {
-            musicTrack.pause();
-        }
-
+    if (musicTrack.isPaused()) {             // Just handle the button that is being drawn right now
+        playButton.handleButtonClick();
+    }
+    else {
+        pauseButton.handleButtonClick();
     }
 
-    if (changeSongButton.isPressed()) {
-
-        if (!musicTrack.loadFromFile()) {
-            std::cerr << "Failed to load the song!\n";
-        }
-
-    }
+    changeSongButton.handleButtonClick();
 }
 
 void MusicPlayer::drawing() {

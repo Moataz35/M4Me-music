@@ -1,4 +1,4 @@
-#include "Rectangle.h"
+#include "../include/Rectangle.h"
 #include "raylib.h"
 
 stu::Rectangle::Rectangle() {

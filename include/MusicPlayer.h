@@ -21,6 +21,11 @@ private:
 	stu::TextButton changeSongButton;
 	stu::ProgressBar songProgressBar;
 
+	// Commands
+	PlayCommand* playCommand;
+	PauseCommand* pauseCommand;
+	LoadCommand* loadCommand;
+
 	// Used colors in the application
 	Color textColor = { 228, 24, 78, 255 };
 	Color appBackground = { 36, 36, 36, 255 };
@@ -56,7 +61,7 @@ private:
 
 public:
 	MusicPlayer(std::string appName);
-
+	~MusicPlayer();
 	void run();
 };
 

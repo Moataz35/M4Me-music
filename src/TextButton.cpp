@@ -1,6 +1,6 @@
-#include "TextButton.h"
+#include "../include/TextButton.h"
 #include "raylib.h"
-#include "Rectangle.h"
+#include "../include/Rectangle.h"
 #include <string>
 
 
@@ -38,10 +38,6 @@ stu::TextButton::TextButton(std::string buttonText) : Rectangle(0, 0, 150, 25) {
 	centerText();
 }
 
-stu::TextButton::~TextButton() {
-	delete onClicked;
-}
-
 void stu::TextButton::setCommand(Command* toDo) {
 	onClicked = toDo;
 }
@@ -69,3 +65,8 @@ bool stu::TextButton::isPressed() {
 	return false;
 }
 
+void stu::TextButton::handleButtonClick() {
+	if (isPressed() && onClicked != nullptr) {
+		onClicked->execute();
+	}
+}

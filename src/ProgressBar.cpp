@@ -1,6 +1,6 @@
-#include "ProgressBar.h"
+#include "../include/ProgressBar.h"
 #include "raylib.h"
-#include "Rectangle.h"
+#include "../include/Rectangle.h"
 
 stu::ProgressBar::ProgressBar() : baseRec(0, 0, 150, 15), progressRec(0, 0, 0, 15) {
 	x = y = 0;

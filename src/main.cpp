@@ -1,9 +1,4 @@
-/*
-    -------------------------To-Do-----------------------------
-    |- Set the commands for the buttons in the app
-    |- Check if the buttons are clicked to execute the command
-*/
-#include "MusicPlayer.h"
+#include "../include/MusicPlayer.h"
 
 int main(void)
 {
