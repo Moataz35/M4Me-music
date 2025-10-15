@@ -1,6 +1,6 @@
-#include "../include/TextButton.h"
+#include "TextButton.h"
 #include "raylib.h"
-#include "../include/Rectangle.h"
+#include "Rectangle.h"
 #include <string>
 
 

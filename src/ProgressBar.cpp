@@ -1,6 +1,6 @@
-#include "../include/ProgressBar.h"
+#include "ProgressBar.h"
 #include "raylib.h"
-#include "../include/Rectangle.h"
+#include "Rectangle.h"
 
 stu::ProgressBar::ProgressBar() : baseRec(0, 0, 150, 15), progressRec(0, 0, 0, 15) {
 	x = y = 0;
@@ -18,6 +18,36 @@ stu::ProgressBar::ProgressBar(int x, int y, int width, int height) : baseRec(x, 
 void stu::ProgressBar::draw(Color backgroundColor, Color progressColor) {
 	baseRec.draw(backgroundColor);
 	progressRec.draw(progressColor);
+}
+
+void stu::ProgressBar::handleMovingPart() {
+	int mousePosX = GetMouseX();
+	int mousePosY = GetMouseY();
+
+	if (baseRec.contain(mousePosX, mousePosY)) {
+
+		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+
+			/*   a-----------------------------------
+			     |    progress    |			b		|       a -> progress bar x coordinate, b -> mouse new x coordinate
+				 ------------------------------------		The new progress part width = b - a
+		    */
+			
+			progressRec.setSize(
+				mousePosX - progressRec.getPosition().first,  
+				progressRec.getSize().second
+			);
+
+			float progressRatio = (float)progressRec.getSize().first / baseRec.getSize().first;
+
+			onMoving->execute(progressRatio);
+		}
+
+	}
+}
+
+void stu::ProgressBar::setCommand(Command* toDo) {
+	onMoving = toDo;
 }
 
 void stu::ProgressBar::setProgress(float progress) {

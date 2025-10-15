@@ -1,13 +1,14 @@
 #include "raylib.h"
-#include "../include/tinyfiledialogs.h"
-#include "../include/Song.h"
+#include "tinyfiledialogs.h"
+#include "Song.h"
 #include <iostream>
 #include <string>
 
 stu::Song::Song() : audio() {
 	fileName = "";
-	paused = false;
+	paused = true;
 	speed = 1.0f;
+	isReadyToPlay = false;
 	InitAudioDevice();
 }
 
@@ -19,20 +20,35 @@ stu::Song::~Song() {
 	CloseAudioDevice();
 }
 
+void stu::Song::changeSongVolume(float volumePercent) {
+	SetMusicVolume(audio, volumePercent);
+}
+
+void stu::Song::changePlayingPoint(float elapsedTimeRatio) {
+	float elapsedTime = elapsedTimeRatio * getTotalLength();
+	SeekMusicStream(audio, elapsedTime);
+}
+
 float stu::Song::getProgress() {
 	// Believe me you don't want to divide by zero
-	if (GetMusicTimeLength(audio) == 0) return 0;
-	return GetMusicTimePlayed(audio) / GetMusicTimeLength(audio);
+	if (getTotalLength() == 0) return 0;
+	return getElapsedTime() / getTotalLength();
 }
 
 float stu::Song::getTotalLength() {
-	float musicLength = GetMusicTimeLength(audio);
+	if (!isReadyToPlay) return 0;
+
+	float musicLength = GetMusicTimeLength(audio); 
+
 	return musicLength > 0 ? musicLength : 0;
 }
 
 
 float stu::Song::getElapsedTime() {
-	float timePlayed = GetMusicTimePlayed(audio);
+	if (!isReadyToPlay) return 0;
+
+	float timePlayed = GetMusicTimePlayed(audio); // Throwing exception integer dividing by zero
+
 	return timePlayed > 0 ? timePlayed : 0;
 }
 
@@ -54,6 +70,10 @@ bool stu::Song::isPaused() {
 	return paused;
 }
 
+bool stu::Song::isReady() {
+	return isReadyToPlay;
+}
+
 bool stu::Song::loadFromFile(std::string fileName) {
 	// If there is already a loaded audio unload it first
 	UnloadMusicStream(audio);
@@ -66,13 +86,13 @@ bool stu::Song::loadFromFile(std::string fileName) {
 	if (!IsMusicValid(audio)) {
 		return false;
 	}
+
+	std::cout << "Valid audio\n";
 	PlayMusicStream(audio);
 	return true;
 }
 
 bool stu::Song::loadFromFile() {
-	// If there is already a loaded audio unload it first
-	UnloadMusicStream(audio);
 
 	const char* supportedFormats[3] = {"*.mp3", "*.ogg", "*.wav"};  // const char** -> Pointer (char*) to array of (const char*) or C-strings
 	const char* filePath = tinyfd_openFileDialog(
@@ -83,6 +103,7 @@ bool stu::Song::loadFromFile() {
 								"Audio files",
 								0
 							);
+
 	if (filePath == NULL) {
 		return false;
 	}
@@ -95,6 +116,9 @@ bool stu::Song::loadFromFile() {
 	if (!IsMusicValid(audio)) {
 		return false;
 	}
+
+	isReadyToPlay = true;
+	paused = false;
 	PlayMusicStream(audio);
 	return true;
 }
@@ -123,5 +147,7 @@ void stu::Song::setAudioSpeed(float audioSpeed) {
 
 void stu::Song::updateStream() {
 	// Note: It's important to update the music stream every frame
-	UpdateMusicStream(audio);
+	if (isReadyToPlay) {
+		UpdateMusicStream(audio);
+	}
 }

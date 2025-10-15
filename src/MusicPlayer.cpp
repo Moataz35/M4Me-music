@@ -1,9 +1,9 @@
-#include "../include/MusicPlayer.h"
+#include "MusicPlayer.h"
 
 
 MusicPlayer::MusicPlayer(std::string appName) : mainWindow(screenWidth, screenHeight, appName),
                                                 changeSongButton("Change song"),
-                                                playButton("Data/images/play_icon2.png"), pauseButton("Data/images/pause_icon2.png"),
+                                                playButton("Data/images/play_icon2.png"), pauseButton("Data/images/pause_icon2.png"), volumeButton("Data/images/volume_icon.png"),
                                                 songProgressBar(progressBarX, progressBarY, progressBarWidth, progressBarHeight) 
 {
 	
@@ -13,28 +13,44 @@ MusicPlayer::MusicPlayer(std::string appName) : mainWindow(screenWidth, screenHe
     );
 
     playButton.setPosition(
-        progressBarX + progressBarWidth / 2 - buttonRadius / 2,         // x = progress bar center - icon radius
+        progressBarX + progressBarWidth / 2 - iconButtonDiameter / 2,         // x = progress bar center - icon radius
         progressBarY + 50
     );
 
     pauseButton.setPosition(
-        progressBarX + progressBarWidth / 2 - buttonRadius / 2,
+        progressBarX + progressBarWidth / 2 - iconButtonDiameter / 2,
         progressBarY + 50
     );
+
+    // We want to put the center line of volume button on the center line of the progress bar
+    // progressBar center line -> progressBarY + progressBarHeight / 2
+    // put the volume button on the progress bar center line and subtract the distance to the volume button center (butttonY + buttonRadius / 2)
+    volumeButton.setPosition(
+        progressBarX - iconButtonDiameter - 20,
+        progressBarY + progressBarHeight / 2 - iconButtonDiameter / 2
+    );
+
+    volumeSlider.setPosition(sliderX, sliderY);
 
     playCommand = new PlayCommand(&musicTrack);
     pauseCommand = new PauseCommand(&musicTrack);
     loadCommand = new LoadCommand(&musicTrack);
+    changeVolume = new changeVolumeCommand(&musicTrack);
+    changePlayingPoint = new ChangePlayingPoint(&musicTrack);
 
     playButton.setCommand(playCommand);
     pauseButton.setCommand(pauseCommand);
     changeSongButton.setCommand(loadCommand);
+    volumeSlider.setCommand(changeVolume);
+    songProgressBar.setCommand(changePlayingPoint);
 }
 
 MusicPlayer::~MusicPlayer() {
     delete playCommand;
     delete pauseCommand;
     delete loadCommand;
+    delete changeVolume;
+    delete changePlayingPoint;
 }
 
 void MusicPlayer::run() {
@@ -73,6 +89,7 @@ void MusicPlayer::updateStates() {
 
     elapsedTime = static_cast<int>(musicTrack.getElapsedTime());
     songLength = static_cast<int>(musicTrack.getTotalLength());
+
     progressInNumbers = std::to_string(elapsedTime / 60) + ":" + std::to_string(elapsedTime % 60)
                         + "/"
                         + std::to_string(songLength / 60) + ":" + std::to_string(songLength % 60);
@@ -88,11 +105,26 @@ void MusicPlayer::eventHandling() {
     }
 
     changeSongButton.handleButtonClick();
+
+    if (volumeButton.isPressed()) {
+        if (volumeSlider.isVisible()) {
+            volumeSlider.setVisibility(false);
+        }
+        else {
+            volumeSlider.setVisibility(true);
+        }
+    }
+
+    volumeSlider.handleSliderMove();
+
+    songProgressBar.handleMovingPart();
 }
 
 void MusicPlayer::drawing() {
-    changeSongButton.draw(buttonBackground, WHITE);
-    songProgressBar.draw(ProgressBarBackground, progressBackground);
+    changeSongButton.draw(buttonColor, WHITE);
+    songProgressBar.draw(ProgressBarBackground, progressColor);
+    volumeButton.draw();
+    volumeSlider.draw(ProgressBarBackground, progressColor);
 
     DrawText(progressInNumbers.c_str(),
         progressBarX + progressBarWidth + 10,

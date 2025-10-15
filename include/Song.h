@@ -11,9 +11,16 @@ namespace stu {
 		std::string fileName;
 		bool paused;
 		float speed;
+		bool isReadyToPlay;
 	public:
 		Song();
 		~Song();
+
+		// Change the song volume with a percent %
+		void changeSongVolume(float volumePercent);
+
+		// Change the point which song starts playing from
+		void changePlayingPoint(float elapsedTimeRatio);
 
 		// Get the time played from the song as a ratio
 		float getProgress();
@@ -33,6 +40,9 @@ namespace stu {
 			false if the song is playing
 		*/
 		bool isPaused();
+
+		// Check if the audio is ready to play
+		bool isReady();
 
 		// Load the song from a file by providing its path
 		bool loadFromFile(std::string fileName);

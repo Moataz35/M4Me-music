@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/Song.h"
+#include "Song.h"
 
 class Command {
 public:
@@ -10,7 +10,11 @@ public:
 	*/
 	virtual ~Command();
 	virtual void execute();
+	virtual void execute(float ratio);
 };
+
+
+//---------------------------------------------------------------------play song command
 
 class PlayCommand : public Command{
 private:
@@ -20,6 +24,8 @@ public:
 	void execute();
 };
 
+//---------------------------------------------------------------------pause song command
+
 class PauseCommand : public Command{
 private:
 	stu::Song* musicTrack;
@@ -27,6 +33,8 @@ public:
 	PauseCommand(stu::Song* track);
 	void execute();
 };
+
+//---------------------------------------------------------------------Loading a audio file
 
 class LoadCommand : public Command{
 private:
@@ -36,3 +44,22 @@ public:
 	void execute();
 };
 
+//---------------------------------------------------------------------Change the audio volume
+
+class changeVolumeCommand : public Command {
+private:
+	stu::Song* musicTrack;
+public:
+	changeVolumeCommand(stu::Song* track);
+	void execute(float ratio);
+};
+
+//---------------------------------------------------------------------Change the audio playing point
+
+class ChangePlayingPoint : public Command {
+private:
+	stu::Song* musicTrack;
+public:
+	ChangePlayingPoint(stu::Song* track);
+	void execute(float ratio);
+};

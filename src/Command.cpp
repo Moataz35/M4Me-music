@@ -1,10 +1,12 @@
-#include "../include/Command.h"
-#include "../include/Song.h"
+#include "Command.h"
+#include "Song.h"
 #include <iostream>
 
 Command::~Command() {}
 
 void Command::execute() {}
+
+void Command::execute(float ratio) {}
 
 /*------------------------------------------------------------------*/
 
@@ -18,7 +20,7 @@ void PlayCommand::execute() {
 	}
 }
 
-/*------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------Pause command*/
 
 PauseCommand::PauseCommand(stu::Song* track) : musicTrack(track) {}
 
@@ -30,7 +32,7 @@ void PauseCommand::execute() {
 	}
 }
 
-/*------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------Load music track command*/
 
 LoadCommand::LoadCommand(stu::Song* track) : musicTrack(track) {}
 
@@ -39,3 +41,24 @@ void LoadCommand::execute() {
 
 	musicTrack->loadFromFile();
 }
+
+/*----------------------------------------------------------------------------------Changing the volume*/
+
+changeVolumeCommand::changeVolumeCommand(stu::Song* track) : musicTrack(track) {}
+
+void changeVolumeCommand::execute(float ratio) {
+	if (!musicTrack) return;
+
+	musicTrack->changeSongVolume(ratio);
+}
+
+//-------------------------------------------------------------------------------------
+
+ChangePlayingPoint::ChangePlayingPoint(stu::Song* track) : musicTrack(track) {}
+
+void ChangePlayingPoint::execute(float ratio) {
+	if (musicTrack != nullptr && musicTrack->isReady()) {
+		musicTrack->changePlayingPoint(ratio);
+	}
+}
+
