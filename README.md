@@ -12,7 +12,10 @@ A simple application to play audio files.
 
 ## Usage
 
-You just have 2 buttons in the application `Change Song` to choose a song to play and the play/pause button.
+You have 3 buttons in the application.
+ `Change Song` to choose a song to play.
+ `play/pause` button to play and pause the song.
+`volume button` to show a slider to change the volume.
 
 ## Future updates
 
