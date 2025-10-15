@@ -10,12 +10,6 @@ A simple application to play audio files.
 * Raylib
 * tinyfiledialogs
 
-## Gettig started
-
-### Prerequisites
-
-### Installation
-
 ## Usage
 
 You just have 2 buttons in the application `Change Song` to choose a song to play and the play/pause button.
